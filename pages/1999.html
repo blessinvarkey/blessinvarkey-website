@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <script type="text/javascript">
 <!--
-// QuickSearch script for JabRef HTML export 
+// QuickSearch script for JabRef HTML export
 // Version: 3.0
 //
 // Copyright (c) 2006-2011, Mark Schenk
@@ -41,7 +41,7 @@ function initSearch() {
 
 	// load all the rows and sort into arrays
 	loadTableData();
-	
+
 	//find the query field
 	qsfield = document.getElementById('qs_field');
 
@@ -51,7 +51,7 @@ function initSearch() {
 	//find statistics location
 	stats = document.getElementById('stat');
 	setStatistics(-1);
-	
+
 	// set up preferences
 	initPreferences();
 
@@ -69,10 +69,10 @@ function loadTableData() {
 	entryRows = new Array(); infoRows = new Array(); absRows = new Array(); revRows = new Array();
 
 	// get data from each row
-	entryRowsData = new Array(); absRowsData = new Array(); revRowsData = new Array(); 
-	
+	entryRowsData = new Array(); absRowsData = new Array(); revRowsData = new Array();
+
 	BibTeXKeys = new Array();
-	
+
 	for (var i=0, k=0, j=0; i<allRows.length;i++) {
 		if (allRows[i].className.match(/entry/)) {
 			entryRows[j] = allRows[i];
@@ -99,7 +99,7 @@ function loadTableData() {
 }
 
 function quickSearch(){
-	
+
 	tInput = qsfield;
 
 	if (tInput.value.length == 0) {
@@ -111,7 +111,7 @@ function quickSearch(){
 		t = stripDiacritics(tInput.value);
 
 		if(!searchRegExp) { t = escapeRegExp(t); }
-			
+
 		// only search for valid RegExp
 		try {
 			textRegExp = new RegExp(t,"i");
@@ -124,7 +124,7 @@ function quickSearch(){
 			return;
 		}
 	}
-	
+
 	// count number of hits
 	var hits = 0;
 
@@ -133,19 +133,19 @@ function quickSearch(){
 
 		// only show search the cells if it isn't already hidden OR if the search term is getting shorter, then search all
 		if(cRow.className.indexOf('noshow')==-1 || tInput.value.length <= prevSearch.length){
-			var found = false; 
+			var found = false;
 
-			if (entryRowsData[i].search(textRegExp) != -1 || BibTeXKeys[i].search(textRegExp) != -1){ 
+			if (entryRowsData[i].search(textRegExp) != -1 || BibTeXKeys[i].search(textRegExp) != -1){
 				found = true;
 			} else {
 				if(searchAbstract && absRowsData[i]!=undefined) {
-					if (absRowsData[i].search(textRegExp) != -1){ found=true; } 
+					if (absRowsData[i].search(textRegExp) != -1){ found=true; }
 				}
 				if(searchReview && revRowsData[i]!=undefined) {
-					if (revRowsData[i].search(textRegExp) != -1){ found=true; } 
+					if (revRowsData[i].search(textRegExp) != -1){ found=true; }
 				}
 			}
-			
+
 			if (found){
 				cRow.className = 'entry show';
 				hits++;
@@ -157,7 +157,7 @@ function quickSearch(){
 
 	// update statistics
 	setStatistics(hits)
-	
+
 	// set previous search value
 	prevSearch = tInput.value;
 }
@@ -166,8 +166,8 @@ function quickSearch(){
 // Strip Diacritics from text
 // http://stackoverflow.com/questions/990904/javascript-remove-accents-in-strings
 
-// String containing replacement characters for stripping accents 
-var stripstring = 
+// String containing replacement characters for stripping accents
+var stripstring =
     'AAAAAAACEEEEIIII'+
     'DNOOOOO.OUUUUY..'+
     'aaaaaaaceeeeiiii'+
@@ -214,23 +214,23 @@ function toggleInfo(articleid,info) {
 	var abs = document.getElementById('abs_'+articleid);
 	var rev = document.getElementById('rev_'+articleid);
 	var bib = document.getElementById('bib_'+articleid);
-	
+
 	if (abs && info == 'abstract') {
 		abs.className.indexOf('noshow') == -1?abs.className = 'abstract noshow':abs.className = 'abstract show';
 	} else if (rev && info == 'review') {
 		rev.className.indexOf('noshow') == -1?rev.className = 'review noshow':rev.className = 'review show';
 	} else if (bib && info == 'bibtex') {
 		bib.className.indexOf('noshow') == -1?bib.className = 'bibtex noshow':bib.className = 'bibtex show';
-	} else { 
+	} else {
 		return;
 	}
 
 	// check if one or the other is available
 	var revshow; var absshow; var bibshow;
 	(abs && abs.className.indexOf('noshow') == -1)? absshow = true: absshow = false;
-	(rev && rev.className.indexOf('noshow') == -1)? revshow = true: revshow = false;	
+	(rev && rev.className.indexOf('noshow') == -1)? revshow = true: revshow = false;
 	(bib && bib.className.indexOf('noshow') == -1)? bibshow = true: bibshow = false;
-	
+
 	// highlight original entry
 	if(entry) {
 		if (revshow || absshow || bibshow) {
@@ -239,15 +239,15 @@ function toggleInfo(articleid,info) {
 		entry.className = 'entry show';
 		}
 	}
-	
+
 	// When there's a combination of abstract/review/bibtex showing, need to add class for correct styling
 	if(absshow) {
 		(revshow||bibshow)?abs.className = 'abstract nextshow':abs.className = 'abstract';
-	} 
+	}
 	if (revshow) {
 		bibshow?rev.className = 'review nextshow': rev.className = 'review';
-	}	
-	
+	}
+
 }
 
 function setStatistics (hits) {
@@ -258,7 +258,7 @@ function setStatistics (hits) {
 function getTextContent(node) {
 	// Function written by Arve Bersvendsen
 	// http://www.virtuelvis.com
-	
+
 	if (node.nodeType == 3) {
 	return node.nodeValue;
 	} // text node
@@ -325,22 +325,22 @@ function initPreferences(){
 	if(searchReview){document.getElementById("opt_searchRev").checked = true;}
 	if(noSquiggles){document.getElementById("opt_noAccents").checked = true;}
 	if(searchRegExp){document.getElementById("opt_useRegExp").checked = true;}
-	
+
 	if(numAbs==0) {document.getElementById("opt_searchAbs").parentNode.style.display = 'none';}
-	if(numRev==0) {document.getElementById("opt_searchRev").parentNode.style.display = 'none';}	
+	if(numRev==0) {document.getElementById("opt_searchRev").parentNode.style.display = 'none';}
 }
 
 function toggleSettings(){
 	var togglebutton = document.getElementById('showsettings');
 	var settings = document.getElementById('settings');
-	
+
 	if(settings.className == "hidden"){
 		settings.className = "show";
 		togglebutton.innerText = "close settings";
 		togglebutton.textContent = "close settings";
 	}else{
 		settings.className = "hidden";
-		togglebutton.innerText = "settings...";		
+		togglebutton.innerText = "settings...";
 		togglebutton.textContent = "settings...";
 	}
 }
@@ -589,7 +589,7 @@ p.infolinks { margin: 0.3em 0em 0em 0em; padding: 0px; }
 </pre></td>
 </tr>
 <tr id="lazarescu1999incremental" class="entry">
-	<td>Lazarescu M, Venkatesh S and G W (1999), <i>"Incremental learning with forgetting"</i>, In Workshop on machine learning in computer vision, 16th International Conference on Machine Learning. 
+	<td>Lazarescu M, Venkatesh S and G W (1999), <i>"Incremental learning with forgetting"</i>, In Workshop on machine learning in computer vision, 16th International Conference on Machine Learning.
 	<p class="infolinks"> [<a href="javascript:toggleInfo('lazarescu1999incremental','bibtex')">BibTeX</a>]</p>
 	</td>
 </tr>
